@@ -40,7 +40,7 @@ app.layout = html.Div([
     dcc.Tabs([
         
         dcc.Tab(label="Explore HGv1 dataset", children =[
-            html.H4("HGv1 Dataset"),
+            html.H2("HGv1 Dataset"),
             html.Div([dcc.Dropdown(id="hormone-input",
                                        options=[
                                            {'label': hor, 'value': hor} for hor in list(hormone_src_tgt_genes.keys())
@@ -48,9 +48,9 @@ app.layout = html.Div([
                                        placeholder="Select a hormone",
                                       )  
                          ]),
-            html.H2("Source Genes"),
+            html.H4("Source Genes"),
             html.Div(id='src_table'),
-            html.H2("Target Genes"),
+            html.H4("Target Genes"),
             html.Div(id='tar_table')
         ]),
         
@@ -79,7 +79,7 @@ app.layout = html.Div([
                                   columns=[
                                             {'name': name, 'id': name} for name in df_new.columns
                                         ],
-                                  data=df_new.to_dict('records'),
+                                  data=[{'Hormone': ' ', 'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}]
                                   sort_action="native",
                                   sort_mode="multi",
                                   page_size= 10)
