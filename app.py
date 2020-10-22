@@ -10,7 +10,6 @@ abv_values=[5.4, 7.1, 9.2, 4.3]
 color1='darkred'
 color2='orange'
 mytitle='Beer Comparison'
-tabtitle='beer!'
 myheading='Flying Dog Beers'
 label1='IBU'
 label2='ABV'
@@ -47,7 +46,7 @@ tablebreak = 12
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
-app.title= "Title"
+app.title= "Cross-tissue-signaling"
 
 
 max_rows=10
