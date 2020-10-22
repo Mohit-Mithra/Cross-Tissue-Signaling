@@ -34,6 +34,8 @@ tablebreak = 12
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 max_rows=10
+server = app.server
+
 app.layout = html.Div([
     dcc.Tabs([
         
