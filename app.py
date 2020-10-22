@@ -33,10 +33,6 @@ to_load = 50
 tablebreak = 12
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-server = app.server
-app.title= "Cross-tissue-signaling"
-
-
 max_rows=10
 app.layout = html.Div([
     dcc.Tabs([
@@ -196,7 +192,6 @@ def func(n_clicks):
 @app.callback(Output("lncrna-download", "data"), [Input("lncrna-btn", "n_clicks")])
 def func(n_clicks):
     return send_file("./lncRNA_novel_predictions.csv", filename = 'lncRNA.csv')
-
 
 if __name__ == '__main__':
     app.run_server()
