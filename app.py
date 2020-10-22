@@ -147,7 +147,7 @@ def display_tar(val1):
      State('my-table', 'columns')]
 )
 def generate_table(val1, val2, rows, columns):
-    print(val1)
+    val1 = "aldosterone"
     if val1 != None:
         if val2 == "gene":
             df1 = df_gene[df_gene['Hormone'].str.match(val1)]
