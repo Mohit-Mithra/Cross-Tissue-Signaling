@@ -184,7 +184,7 @@ def func(n_clicks):
 
 @app.callback(Output("pc-download", "data"), [Input("pc-btn", "n_clicks")])
 def func(n_clicks):
-    return send_file("./protein_coding_genes_novel_predictions.csv", filename='protein coding.csv')
+    return send_file("./protein_coding_genes_novel_predictions_short.csv", filename='protein coding.csv')
 
 @app.callback(Output("lncrna-download", "data"), [Input("lncrna-btn", "n_clicks")])
 def func(n_clicks):
