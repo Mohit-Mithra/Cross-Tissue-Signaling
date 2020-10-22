@@ -79,19 +79,11 @@ app.layout = html.Div([
                                   columns=[
                                             {'name': name, 'id': name} for name in df_new.columns
                                         ],
-                                  data=df_new.nlargest(10,['SVM score','SVM probability']).to_dict('records'),
+                                  data=df_new.to_dict('records'),
                                   sort_action="native",
                                   sort_mode="multi",
-                                  page_size= 10,
-                                  tooltip={'Hormone': {'type': 'text', 'value': 'Tooplit'},
-                                  		   'Gene': {'type': 'text', 'value': 'Tooplit'},
-                                  		   'SVM scores': {'type': 'text', 'value': 'Tooplit'},
-                                  		   'SVM probability' : {'type': 'text', 'value': 'Tooplit'}}
-
-								)
-								  # tooltip_conditional=[{'if': {'column_id': 'SVM score'}},
-										# 				{'value': "My tooltip"},
-										# 			    {'type': 'text'}]),
+                                  page_size= 10)
+								  			    
                   )
             ])
         ]),
