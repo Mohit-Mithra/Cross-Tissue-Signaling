@@ -79,7 +79,7 @@ app.layout = html.Div([
                                   columns=[
                                             {'name': name, 'id': name} for name in df_new.columns
                                         ],
-                                  data=[{'Hormone': ' ', 'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}]
+                                  data=[{'Hormone': ' ', 'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}],
                                   sort_action="native",
                                   sort_mode="multi",
                                   page_size= 10)
