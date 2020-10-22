@@ -29,7 +29,7 @@ from dash_extensions.snippets import send_file
 import os
 
 cols_to_use = ['Hormone', 'Gene', 'SVM score', 'SVM probability']
-df_gene = pd.read_csv('./protein_coding_genes_novel_predictions.csv', usecols = cols_to_use)
+df_gene = pd.read_csv('./protein_coding_genes_novel_predictions_short.csv', usecols = cols_to_use)
 df_lncrna = pd.read_csv('./lncRNA_novel_predictions.csv', usecols = cols_to_use)
 with open('./hgv1_hormone_src_tgt_genes.json') as json_file:
     hormone_src_tgt_genes = json.load(json_file)
@@ -200,7 +200,7 @@ def func(n_clicks):
 
 @app.callback(Output("pc-download", "data"), [Input("pc-btn", "n_clicks")])
 def func(n_clicks):
-    return send_file("./protein_coding_genes_novel_predictions.csv", filename='protein coding.csv')
+    return send_file("./protein_coding_genes_novel_predictions_short.csv", filename='protein coding.csv')
 
 @app.callback(Output("lncrna-download", "data"), [Input("lncrna-btn", "n_clicks")])
 def func(n_clicks):
