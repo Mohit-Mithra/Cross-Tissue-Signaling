@@ -6,8 +6,6 @@ import plotly.graph_objs as go
 ########### Define your variables
 githublink='https://github.com/austinlasseter/flying-dog-beers'
 sourceurl='https://www.flyingdog.com/beers/'
-<link rel="icon" href="https://www.iconsdb.com/icons/preview/white/square-xxl.png">
-
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
