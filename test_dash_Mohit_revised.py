@@ -13,7 +13,7 @@ from dash_extensions.snippets import send_file
 import os
 
 cols_to_use = ['Hormone', 'Gene', 'SVM score', 'SVM probability']
-df_gene = pd.read_csv('./protein_coding_genes_novel_predictions.csv', usecols = cols_to_use)
+df_gene = pd.read_csv('./protein_coding_genes_novel_predictions_short.csv', usecols = cols_to_use)
 df_lncrna = pd.read_csv('./lncRNA_novel_predictions.csv', usecols = cols_to_use)
 with open('./hgv1_hormone_src_tgt_genes.json') as json_file:
     hormone_src_tgt_genes = json.load(json_file)
