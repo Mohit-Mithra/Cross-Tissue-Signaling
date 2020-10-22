@@ -178,7 +178,7 @@ def generate_table(val1, val2, rows, columns):
             df1 = df_lncrna[df_lncrna['Hormone'].str.match(val1)]
 
         #return df1.nlargest(10,['SVM score','SVM probability']).to_dict('records')
-        return df1.nlargest(to_load,['SVM score','SVM probability']).to_dict('records')
+        return df1.to_dict('records')
 
         # return html.Div(dash_table.DataTable(
         # id='table',
