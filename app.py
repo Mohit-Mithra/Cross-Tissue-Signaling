@@ -82,6 +82,7 @@ app.layout = html.Div([
                                   data=[{'Hormone': ' ', 'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}],
                                   sort_action="native",
                                   sort_mode="multi",
+				  export_format = 'csv',
                                   page_size= 10)
 								  			    
                   )
