@@ -161,23 +161,6 @@ def generate_table(val1, val2, rows, columns):
         #return df1.nlargest(10,['SVM score','SVM probability']).to_dict('records')
         return df1.to_dict('records')
 
-        # return html.Div(dash_table.DataTable(
-        # id='table',
-        # columns=[
-        #     [{"name": col, "id": col, "selectable": True} for col in df1.columns]
-        # ],
-        # data=df1.to_dict('records'),
-        # filter_action="native",
-        # sort_action="native",
-        # sort_mode="multi",
-        # column_selectable="single",
-        # row_selectable="multi",
-        # selected_columns=[],
-        # selected_rows=[],
-        # page_action="native",
-        # page_current= 0,
-        # page_size= 10))
-
 
 @app.callback(Output("hg-download", "data"), [Input("hg-btn", "n_clicks")])
 def func(n_clicks):
