@@ -93,6 +93,8 @@ app.layout = html.Div([
             #html.A('Download all hormone-gene predictions', id='hg-link',href="./bioembeds_nonsmote_pos_preds.csv")
             html.Div([html.Button("Download all hormone-gene predictions", id="hg-btn"), Download(id="hg-download")]),
             html.Div([html.Button("Download predictions for protein coding genes", id="pc-btn"), Download(id="pc-download")]),
+	    html.A(html.Button('Link to all predictions for protein coding genes'),
+    href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'),
             html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn"), Download(id="lncrna-download")])
         ])
     ])
