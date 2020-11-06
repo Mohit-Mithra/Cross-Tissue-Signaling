@@ -14,6 +14,7 @@ import json
 from dash_extensions import Download
 from dash_extensions.snippets import send_file
 import os
+import base64
 
 cols_to_use = ['Hormone', 'Gene', 'SVM score', 'SVM probability']
 df_gene = pd.read_csv('./protein_coding_genes_novel_predictions_threshold.csv', usecols = cols_to_use)
@@ -34,6 +35,9 @@ tablebreak = 12
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 max_rows=10
+image_filename = 'HGv1.png'
+encoded_image = base64.b64encode(open(image_filename, 'rb').read())
+
 server = app.server
 
 app.layout = html.Div([
@@ -41,6 +45,7 @@ app.layout = html.Div([
         
         dcc.Tab(label="Explore HGv1 dataset", children =[
             html.H2("HGv1 Dataset"),
+	    html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'height':'20%', 'width':'20%'}),
             html.Div([dcc.Dropdown(id="hormone-input",
                                        options=[
                                            {'label': hor, 'value': hor} for hor in list(hormone_src_tgt_genes.keys())
