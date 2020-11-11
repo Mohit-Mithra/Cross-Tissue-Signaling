@@ -22,6 +22,9 @@ df_lncrna = pd.read_csv('./lncRNA_novel_predictions.csv', usecols = cols_to_use)
 with open('./hgv1_hormone_src_tgt_genes.json') as json_file:
     hormone_src_tgt_genes = json.load(json_file)
 
+with open('./source_target_tissue.json') as st_json_file:
+	src_tgt_tissue = json.load(st_json_file)
+	
 hormone_lst = ['aldosterone', 'angiotensin', 'calcitonin', 'cholecystokinin', 'cortisol', 'erythropoietin', 'estrogen', 'glucagon', 'insulin', 'leptin', 'melatonin', 'peptide yy', 'progesterone', 'prolactin', 'prostaglandins', 'relaxin', 'somatostatin', 'testosterone', 'adrenocorticotropin', 'thyrotropin-releasing hormone', 'gonadotropin-releasing hormone', 'vascular endothelial growth factor', 'norepinephrine', 'adiponectin', 'a-type natriuretic peptide', 'adrenaline/epinephrine', 'estradiol/oestradiol', 'somatotrophin/growth hormone', 'parathyroid hormone/parathyrin', 'serotonin/5-hydroxytryptamine', 'vitamin d/calciferol', 'follicle-stimulating hormone/follitropin', 'antidiuretic hormone/vasopressin', 'thymosin']
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -53,10 +56,14 @@ app.layout = html.Div([
                                        placeholder="Select a hormone",
                                       )  
                          ]),
-            html.H4("Source Genes"),
-            html.Div(id='src_table'),
-            html.H4("Target Genes"),
-            html.Div(id='tar_table')
+		html.H3("Source Tissues"),
+		html.Div(id='src_tissue'),
+		html.H3("Source Genes"),
+		html.Div(id='src_table'),
+		html.H3("Target Tissues"),
+		html.Div(id='tar_tissue'),
+		html.H3("Target Genes"),
+		html.Div(id='tar_table')
         ]),
         
         dcc.Tab(label="Browse predictions", children = [
@@ -108,7 +115,26 @@ app.layout = html.Div([
     ])
 ])
 
+@app.callback(
+	Output(component_id = 'src_tissue', component_property='children'), 
+	[Input(component_id='hormone-input', component_property='value')]
+)
+def display_src_tissue(val1):
+	if val1 != None:
+		sourcegenes = list(src_tgt_tissue[str(val1)]['source'])
+		targetgenes = list(src_tgt_tissue[str(val1)]['target'])
 
+		if(len(sourcegenes)%tablebreak != 0):
+			while(len(sourcegenes)%tablebreak != 0):
+				sourcegenes.append(' ')
+
+		return html.Table([
+			html.Thead(
+				html.Tr([html.Th(' ') for i in range(tablebreak)])),
+			html.Tbody([
+				html.Tr([html.Td(gene.upper()) for gene in sourcegenes[i*tablebreak:i*tablebreak+tablebreak]]) for i in range(len(sourcegenes)//tablebreak)])
+		])
+	
 @app.callback(
 	Output(component_id = 'src_table', component_property='children'), 
 	[Input(component_id='hormone-input', component_property='value')]
@@ -129,6 +155,26 @@ def display_src(val1):
                 html.Tr([html.Td(gene.upper()) for gene in sourcegenes[i*tablebreak:i*tablebreak+tablebreak]]) for i in range(len(sourcegenes)//tablebreak)])
         ])
 
+@app.callback(
+	Output(component_id = 'tar_tissue', component_property='children'), 
+	[Input(component_id='hormone-input', component_property='value')]
+)
+def display_tar_tissue(val1):
+	if val1 != None:
+		sourcegenes = list(src_tgt_tissue[str(val1)]['source'])
+		targetgenes = list(src_tgt_tissue[str(val1)]['target'])
+
+		if(len(targetgenes)%tablebreak != 0):
+			while(len(targetgenes)%tablebreak != 0):
+				targetgenes.append(' ')
+
+		return html.Table([
+			html.Thead(
+				html.Tr([html.Th(' ') for i in range(tablebreak)])),
+			html.Tbody([
+				html.Tr([html.Td(gene.upper()) for gene in targetgenes[i*tablebreak:i*tablebreak+tablebreak]]) for i in range(len(targetgenes)//tablebreak)])
+		])
+	
 @app.callback(
 	Output(component_id = 'tar_table', component_property='children'), 
 	[Input(component_id='hormone-input', component_property='value')]
