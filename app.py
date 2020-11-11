@@ -110,7 +110,8 @@ app.layout = html.Div([
 	    html.A(html.Button('Link to all predictions for protein coding genes'),
     href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'),
             html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn"), Download(id="lncrna-download")]),
-	    html.Div([html.Button("Download the HGv1 Dataset", id="hgv1-btn"), Download(id="hgv1-download")])
+	    html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn"), Download(id="hgv1-gene-download")]),
+	    html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn"), Download(id="hgv1-tissue-download")])
         ])
     ])
 ])
@@ -242,9 +243,13 @@ def func(n_clicks):
 def func(n_clicks):
     return send_file("./lncRNA_novel_predictions.csv", filename = 'lncRNA.csv')
 
-@app.callback(Output("hgv1-download", "data"), [Input("hgv1-btn", "n_clicks")])
+@app.callback(Output("hgv1-gene-download", "data"), [Input("hgv1-gene-btn", "n_clicks")])
 def func(n_clicks):
-    return send_file("./hgv1_hormone_src_tgt_genes.json", filename = 'HGv1.json')
+	return send_file("./hgv1_hormone_src_tgt_genes.json", filename = 'HGv1_Gene.json')
+
+@app.callback(Output("hgv1-tissue-download", "data"), [Input("hgv1-tissue-btn", "n_clicks")])
+def func(n_clicks):
+	return send_file("./source_target_tissue.json", filename = 'HGv1_Tissue.json')
 
 if __name__ == '__main__':
     app.run_server()
