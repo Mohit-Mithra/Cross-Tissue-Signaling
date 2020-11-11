@@ -91,7 +91,8 @@ app.layout = html.Div([
 				  export_format = 'csv',
                                   page_size= 10)
 								  			    
-                  )
+                  ),
+		html.Div(id = 'count'),
             ])
         ]),
         
@@ -168,6 +169,20 @@ def generate_table(val1, val2, rows, columns):
         #return df1.nlargest(10,['SVM score','SVM probability']).to_dict('records')
         return df1.to_dict('records')
 
+@app.callback(
+	Output(component_id = 'count', component_property = 'children'),
+	[Input(component_id='my-input', component_property='value'),
+	Input(component_id='type', component_property='value')]
+)
+def generate_count(val1, val2):
+	print(val1)
+	if val1 != None:
+		if val2 == "gene":
+			df1 = df_gene[df_gene['Hormone'].str.match(val1)]
+		elif val2 == "lncrna":
+			df1 = df_lncrna[df_lncrna['Hormone'].str.match(val1)]
+
+		return "Discovered " + str(len(df1)) + " " + str(val2) + "s associated with this hormone, with an SVM score higher than 0.75"	
 
 @app.callback(Output("hg-download", "data"), [Input("hg-btn", "n_clicks")])
 def func(n_clicks):
