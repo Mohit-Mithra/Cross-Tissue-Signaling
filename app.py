@@ -101,7 +101,8 @@ app.layout = html.Div([
             html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn"), Download(id="pc-download")]),
 	    html.A(html.Button('Link to all predictions for protein coding genes'),
     href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'),
-            html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn"), Download(id="lncrna-download")])
+            html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn"), Download(id="lncrna-download")]),
+	    html.Div([html.Button("Download the HGv1 Dataset", id="hgv1-btn"), Download(id="hgv1-download")])
         ])
     ])
 ])
@@ -179,6 +180,10 @@ def func(n_clicks):
 @app.callback(Output("lncrna-download", "data"), [Input("lncrna-btn", "n_clicks")])
 def func(n_clicks):
     return send_file("./lncRNA_novel_predictions.csv", filename = 'lncRNA.csv')
+
+@app.callback(Output("hgv1-download", "data"), [Input("hgv1-btn", "n_clicks")])
+def func(n_clicks):
+    return send_file("./hgv1_hormone_src_tgt_genes.json", filename = 'HGv1.json')
 
 if __name__ == '__main__':
     app.run_server()
