@@ -229,7 +229,7 @@ def generate_count(val1, val2):
 		elif val2 == "lncrna":
 			df1 = df_lncrna[df_lncrna['Hormone'].str.match(val1)]
 
-		return "Discovered " + str(len(df1)) + " " + str(val2) + "s associated with this hormone, with an SVM score higher than 0.75"	
+		return "Discovered " + str(len(df1)) + " " + str(val2) + "s associated with this hormone, with the SVM probability score higher than 0.70"	
 
 @app.callback(Output("hg-download", "data"), [Input("hg-btn", "n_clicks")])
 def func(n_clicks):
