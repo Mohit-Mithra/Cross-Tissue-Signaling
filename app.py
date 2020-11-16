@@ -18,7 +18,7 @@ import base64
 
 cols_to_use = ['Hormone', 'Gene', 'SVM score', 'SVM probability']
 df_gene = pd.read_csv('./protein_coding_genes_novel_predictions_threshold.csv', usecols = cols_to_use)
-df_lncrna = pd.read_csv('./lncRNA_novel_predictions.csv', usecols = cols_to_use)
+df_lncrna = pd.read_csv('./lncRNA_novel_predictions_threshold.csv', usecols = cols_to_use)
 with open('./hgv1_hormone_src_tgt_genes.json') as json_file:
     hormone_src_tgt_genes = json.load(json_file)
 
@@ -241,7 +241,7 @@ def func(n_clicks):
 
 @app.callback(Output("lncrna-download", "data"), [Input("lncrna-btn", "n_clicks")])
 def func(n_clicks):
-    return send_file("./lncRNA_novel_predictions.csv", filename = 'lncRNA.csv')
+    return send_file("./lncRNA_novel_predictions_threshold.csv", filename = 'lncRNA.csv')
 
 @app.callback(Output("hgv1-gene-download", "data"), [Input("hgv1-gene-btn", "n_clicks")])
 def func(n_clicks):
