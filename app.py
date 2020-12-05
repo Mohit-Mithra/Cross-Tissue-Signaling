@@ -34,7 +34,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 df_new = df_gene[df_gene['Hormone'].str.match('aldosterone')]
 print(len(df_new))
 to_load = 50
-tablebreak = 12
+tablebreak = 8
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 max_rows=10
@@ -46,25 +46,29 @@ server = app.server
 app.layout = html.Div([
     dcc.Tabs([
         
-        dcc.Tab(label="Explore HGv1 dataset", children =[
-            html.H2("HGv1 Dataset"),
-	    html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'height':'20%', 'width':'20%'}),
-            html.Div([dcc.Dropdown(id="hormone-input",
-                                       options=[
-                                           {'label': hor, 'value': hor} for hor in list(hormone_src_tgt_genes.keys())
-                                       ],
-                                       placeholder="Select a hormone",
-                                      )  
-                         ]),
-		html.H3("Source Tissues"),
-		html.Div(id='src_tissue'),
-		html.H3("Source Genes"),
-		html.Div(id='src_table'),
-		html.H3("Target Tissues"),
-		html.Div(id='tar_tissue'),
-		html.H3("Target Genes"),
-		html.Div(id='tar_table')
-        ]),
+	dcc.Tab(label="Explore HGv1 dataset", children =[
+		html.H4("HGv1 Dataset"),
+		html.Div([
+			html.Div([
+				html.Div([dcc.Dropdown(id="hormone-input",
+										   options=[
+											   {'label': hor, 'value': hor} for hor in list(hormone_src_tgt_genes.keys())
+										   ],
+										   placeholder="Select a hormone",
+										  )  
+							 ]),
+				html.H3("Source Tissues"),
+				html.Div(id='src_tissue'),
+				html.H3("Source Genes"),
+				html.Div(id='src_table'),
+				html.H3("Target Tissues"),
+				html.Div(id='tar_tissue'),
+				html.H3("Target Genes"),
+				html.Div(id='tar_table')
+			], style={'width': '49%', 'display': 'inline-block'}),
+			html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode())), style={'width': '49%', 'display': 'inline-block'}),
+		])
+	]),
         
         dcc.Tab(label="Browse predictions", children = [
             html.Div(children=[
