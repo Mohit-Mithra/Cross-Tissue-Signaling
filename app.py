@@ -73,7 +73,7 @@ app.layout = html.Div([
         dcc.Tab(label="Browse predictions", children = [
             html.Div(children=[
                 html.H4(children='BioEmbedS Predictions'),
-		html.A('Code on Github', href="https://github.com/Mohit-Mithra/BioEmbedS"),
+		html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
                 html.Div([dcc.Dropdown(id="my-input",
                                        options=[
                                            {'label': hor, 'value': hor} for hor in hormone_lst
