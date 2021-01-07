@@ -73,7 +73,7 @@ app.layout = html.Div([
         dcc.Tab(label="Browse predictions", children = [
             html.Div(children=[
                 html.H4(children='BioEmbedS Predictions'),
-		html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
+# 		html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
                 html.Div([dcc.Dropdown(id="my-input",
                                        options=[
                                            {'label': hor, 'value': hor} for hor in hormone_lst
@@ -109,9 +109,10 @@ app.layout = html.Div([
         
         dcc.Tab(label="Downloads", children = [
             #html.A('Download all hormone-gene predictions', id='hg-link',href="./bioembeds_nonsmote_pos_preds.csv")
-            html.Div([html.Button("Download all hormone-gene predictions", id="hg-btn"), Download(id="hg-download")]),
+            html.A(html.Button('Link to access all hormone-gene predictions file'),
+    href='https://drive.google.com/file/d/1mwYZgFU5jP7Kocslwt_QjgKfkKgvMQkL/view?usp=sharing'),
             html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn"), Download(id="pc-download")]),
-	    html.A(html.Button('Link to all predictions for protein coding genes'),
+	    html.A(html.Button('Link to access all predictions for protein coding genes'),
     href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'),
             html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn"), Download(id="lncrna-download")]),
 	    html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn"), Download(id="hgv1-gene-download")]),
