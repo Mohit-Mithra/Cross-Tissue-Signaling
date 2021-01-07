@@ -236,10 +236,6 @@ def generate_count(val1, val2):
 
 		return "Discovered " + str(len(df1)) + " " + str(val2) + "s associated with this hormone, with the SVM probability score higher than 0.70"	
 
-@app.callback(Output("hg-download", "data"), [Input("hg-btn", "n_clicks")])
-def func(n_clicks):
-    return send_file("./bioembeds_nonsmote_pos_preds.csv", filename = 'bioembed preds.csv')
-
 @app.callback(Output("pc-download", "data"), [Input("pc-btn", "n_clicks")])
 def func(n_clicks):
     return send_file("./protein_coding_genes_novel_predictions_threshold.csv", filename='protein coding.csv')
