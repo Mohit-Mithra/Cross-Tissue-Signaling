@@ -73,7 +73,7 @@ app.layout = html.Div([
         dcc.Tab(label="Browse predictions", children = [
             html.Div(children=[
                 html.H4(children='BioEmbedS Predictions'),
-# 		html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
+		html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
                 html.Div([dcc.Dropdown(id="my-input",
                                        options=[
                                            {'label': hor, 'value': hor} for hor in hormone_lst
@@ -83,8 +83,8 @@ app.layout = html.Div([
                          ]),
                 html.Div([dcc.RadioItems(id="type",
                                          options=[
-                                             {'label': 'Show associated genes', 'value': 'gene'},
-                                             {'label': 'Show associated lncRNAs', 'value': 'lncrna'},
+                                             {'label': 'Show associated genes (predictions discussed in BioEmbedS paper)', 'value': 'gene'},
+                                             {'label': 'Show associated lncRNAs (preliminary/exploratory predictions)', 'value': 'lncrna'},
                                          ],
                                          value='gene'
                                         ) 
