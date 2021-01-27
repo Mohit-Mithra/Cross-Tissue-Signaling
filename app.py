@@ -74,8 +74,8 @@ app.layout = html.Div([
             html.Div(children=[
                 html.H4(children='BioEmbedS Predictions'),
 		html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
-		html.P(children='Predicting cross-tissue hormone-gene relations usingbalanced word embeddings.'),
-		html.P(children='Aditya Jadhav, Tarun Kumar, Mohit Raghavendra, Tamizhini Loganathan and Manikandan Narayanan.'),
+		html.P(children='Predicting cross-tissue hormone-gene relations using balanced word embeddings.'),
+		html.P(children='    - Aditya Jadhav, Tarun Kumar, Mohit Raghavendra, Tamizhini Loganathan and Manikandan Narayanan.'),
                 html.Div([dcc.Dropdown(id="my-input",
                                        options=[
                                            {'label': hor, 'value': hor} for hor in hormone_lst
