@@ -48,6 +48,15 @@ encoded_bioemned_image = base64.b64encode(open(biomedbed_image_filename, 'rb').r
 server = app.server
 
 app.layout = html.Div([
+
+	html.Div(children = [
+
+		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '220px', 'display': 'block'}), className = 'left'),
+		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width': '220px', 'display': 'block'}), className='right'),
+		html.Div(children = "Predicting cross-tissue hormone-gene relations using balanced word embeddings.", className='center'),
+
+		], className = 'banner'),
+
 	dcc.Tabs([
 		
 	dcc.Tab(label="Explore HGv1 dataset", children =[
@@ -73,14 +82,14 @@ app.layout = html.Div([
 				html.H3("Target Genes"),
 				html.Div(id='tar_table')
 			], style={'width': '49%', 'display': 'inline-block'}),
-			html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '220px', 'display': 'block', 'marginLeft': 'auto', 'marginRight': 'auto'}), style={'width': '49%', 'display': 'inline-block', 'verticalAlign':'top'}),
+			# html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '220px', 'display': 'block', 'marginLeft': 'auto', 'marginRight': 'auto'}), style={'width': '49%', 'display': 'inline-block', 'verticalAlign':'top'}),
 		])
 	]),
 		
 		dcc.Tab(label="Browse predictions", children = [
 			html.Div([
 				html.Div(children=[
-					html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width':'220px', 'display': 'block','marginLeft': 'auto', 'marginRight': 'auto', 'paddingTop':'10px'})),
+					# html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width':'220px', 'display': 'block','marginLeft': 'auto', 'marginRight': 'auto', 'paddingTop':'10px'})),
 					html.H4(children='BioEmbedS Predictions'),
 					html.Div([dcc.Dropdown(id="my-input",
 										   options=[
@@ -269,11 +278,11 @@ def generate_count(val1, val2):
 
 @app.callback(Output("pc-download", "data"), [Input("pc-btn", "n_clicks")])
 def func(n_clicks):
-	return send_file("./protein_coding_genes_novel_predictions_threshold.csv", filename='protein coding.csv')
+	return send_file("results/protein_coding_genes_novel_predictions_threshold.csv", filename='protein coding.csv')
 
 @app.callback(Output("lncrna-download", "data"), [Input("lncrna-btn", "n_clicks")])
 def func(n_clicks):
-	return send_file("./lncRNA_novel_predictions_threshold.csv", filename = 'lncRNA.csv')
+	return send_file("results/lncRNA_novel_predictions_threshold.csv", filename = 'lncRNA.csv')
 
 @app.callback(Output("hgv1-gene-download", "data"), [Input("hgv1-gene-btn", "n_clicks")])
 def func(n_clicks):

@@ -1,12 +1,17 @@
 body
 {
-	background-color: #a9fcbf;
+	background-color: #bdfcdc;
 	color: #012485;
 }
 
 button
 {
 	color: #012485;
+}
+
+a
+{
+	color: #ab2b2b;
 }
 
 .downloads
@@ -18,4 +23,35 @@ button
 }
 
 
+.banner
+{
+	padding-top: 5%;
+	height: 400px;
+	width: 100%;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("banner_image2.jpg");
+	background-size: cover;
+}
 
+.left
+{
+	padding-left: 2%;
+	float:left;width:230px;
+}
+
+.right
+{
+	padding-right: 1%;
+	float:right;width:230px;
+}
+
+.center
+{
+
+	margin:0 auto;
+/*	width:1000px;
+*/	font-size: 60px;
+	font-family: 'Prata', serif;
+ 	letter-spacing: 0.04em;
+ 	color: white;
+ 	text-align: center;
+}
