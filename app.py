@@ -42,7 +42,7 @@ max_rows=10
 image_filename = 'HGV1.png'
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
-biomedbed_image_filename = 'bioembedlogo.png'
+biomedbed_image_filename = 'bioembed.png'
 encoded_bioemned_image = base64.b64encode(open(biomedbed_image_filename, 'rb').read())
 
 server = app.server
