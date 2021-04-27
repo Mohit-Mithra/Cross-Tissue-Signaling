@@ -51,8 +51,8 @@ app.layout = html.Div([
 
 	html.Div(children = [
 
-		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '220px', 'display': 'block'}), className = 'left'),
-		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width': '220px', 'display': 'block'}), className='right'),
+		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '180px', 'height': '200px', 'display': 'block'}), className = 'left'),
+		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width': '180px', 'height': '200px', 'display': 'block'}), className='right'),
 		html.Div(children = "Predicting cross-tissue hormone-gene relations using balanced word embeddings.", className='center'),
 
 		], className = 'banner'),
@@ -140,9 +140,11 @@ app.layout = html.Div([
 
 		dcc.Tab(label="About", children = [
 			html.Div(children=[
-					html.H4(children='Predicting cross-tissue hormone-gene relations using balanced word embeddings.'),
-					html.P(children='    - Aditya Jadhav, Tarun Kumar, Mohit Raghavendra, Tamizhini Loganathan and Manikandan Narayanan.'),
-					html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS")
+					html.H3(children='Predicting cross-tissue hormone-gene relations using balanced word embeddings'),
+					html.P(children='    - Aditya Jadhav, Tarun Kumar*, Mohit Raghavendra*, Tamizhini Loganathan and Manikandan Narayanan.', style={'fontSize': 18}),
+					html.P(children='*These authors contributed equally to this work.'),
+					html.A('Paper', href="https://www.biorxiv.org/content/10.1101/2021.01.28.428707v1"), html.Br(),
+					html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
 			])
 		])
 	])
