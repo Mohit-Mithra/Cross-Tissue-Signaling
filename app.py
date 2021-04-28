@@ -60,7 +60,7 @@ app.layout = html.Div([
 	dcc.Tabs([
 		
 	dcc.Tab(label="Explore HGv1 dataset", children =[
-		html.H4("HGv1 Dataset"),
+		html.H4("HGv1 Dataset", className = "main_content"),
 		html.Div([
 			html.Div([
 				html.Div([dcc.Dropdown(id="hormone-input",
@@ -81,7 +81,7 @@ app.layout = html.Div([
 				html.Div(id='tar_tissue'),
 				html.H3("Target Genes"),
 				html.Div(id='tar_table')
-			], style={'width': '49%', 'display': 'inline-block'}),
+			], className = "main_content"),
 			# html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '220px', 'display': 'block', 'marginLeft': 'auto', 'marginRight': 'auto'}), style={'width': '49%', 'display': 'inline-block', 'verticalAlign':'top'}),
 		])
 	]),
@@ -124,18 +124,20 @@ app.layout = html.Div([
 					  ),
 					html.Div(id = 'count'),
 				]),
-			]),
+			], className = "main_content"),
 		]),
 		
 		dcc.Tab(label="Downloads", children = [
-			html.Br(),
-			#html.A('Download all hormone-gene predictions', id='hg-link',href="./bioembeds_nonsmote_pos_preds.csv")
-			html.A(html.Button('Link to access all hormone-gene predictions file', className = 'downloads'), href='https://drive.google.com/file/d/1mwYZgFU5jP7Kocslwt_QjgKfkKgvMQkL/view?usp=sharing'), html.Br(),  html.Br(),
-			html.A(html.Button('Link to access all predictions for protein coding genes', className = 'downloads'), href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'), html.Br(),  html.Br(),
-			html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn", className = 'downloads'), Download(id="pc-download")]), html.Br(),
-			html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn", className = 'downloads'), Download(id="lncrna-download")]), html.Br(),
-			html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn", className = 'downloads'), Download(id="hgv1-gene-download")]), html.Br(),
-			html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn", className = 'downloads'), Download(id="hgv1-tissue-download")]), html.Br(),
+			html.Div(children = [
+				html.Br(),
+				#html.A('Download all hormone-gene predictions', id='hg-link',href="./bioembeds_nonsmote_pos_preds.csv")
+				html.A(html.Button('Link to access all hormone-gene predictions file', className = 'downloads'), href='https://drive.google.com/file/d/1mwYZgFU5jP7Kocslwt_QjgKfkKgvMQkL/view?usp=sharing'), html.Br(),  html.Br(),
+				html.A(html.Button('Link to access all predictions for protein coding genes', className = 'downloads'), href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'), html.Br(),  html.Br(),
+				html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn", className = 'downloads'), Download(id="pc-download")]), html.Br(),
+				html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn", className = 'downloads'), Download(id="lncrna-download")]), html.Br(),
+				html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn", className = 'downloads'), Download(id="hgv1-gene-download")]), html.Br(),
+				html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn", className = 'downloads'), Download(id="hgv1-tissue-download")]), html.Br(),
+			], className = "main_content")
 		]),
 
 		dcc.Tab(label="About", children = [
@@ -145,7 +147,7 @@ app.layout = html.Div([
 					html.P(children='*These authors contributed equally to this work.'),
 					html.A('Paper', href="https://www.biorxiv.org/content/10.1101/2021.01.28.428707v1"), html.Br(),
 					html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
-			])
+			], className = "main_content")
 		])
 	])
 ])
