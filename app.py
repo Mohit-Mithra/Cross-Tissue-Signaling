@@ -148,7 +148,8 @@ app.layout = html.Div([
 					html.P(children=[html.Strong('About our model:'), ' Our BioEmbedS model predicts if a hormone-gene pair is associated or not from literature-based (BioWordVec) embeddings of the hormone name and the gene symbol.'], style={'fontSize': 18}), html.Br(), 
 					html.P(children=[html.Strong('About our dataset:'), ' Our HGv1 dataset is a unified database of source and target genes for known hormones that we expressly assembled by integrating data from several data sources (please refer to our paper below for these data sources).'], style={'fontSize': 18}), html.Br(),
 					html.A('Paper', href="https://www.biorxiv.org/content/10.1101/2021.01.28.428707v1"), html.Br(),
-					html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"),
+					html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"), html.Br(), html.Br(),
+					html.P(children='This work was supported by Wellcome Trust/DBT grant IA/I/17/2/503323 awarded to Manikandan Narayanan.'), html.Br(),
 			], className = "main_content")
 		])
 	])
