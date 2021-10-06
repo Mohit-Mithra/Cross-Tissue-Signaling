@@ -43,7 +43,10 @@ image_filename = 'HGV1.png'
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
 biomedbed_image_filename = 'bioembed.png'
-encoded_bioemned_image = base64.b64encode(open(biomedbed_image_filename, 'rb').read())
+encoded_bioembed_image = base64.b64encode(open(biomedbed_image_filename, 'rb').read())
+
+pipeline_image_filename = 'bioembeds_demo.jpg'
+encoded_bioembed_demo_image = base64.b64encode(open(pipeline_image_filename, 'rb').read())
 
 server = app.server
 
@@ -52,12 +55,36 @@ app.layout = html.Div([
 	html.Div(children = [
 
 		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '180px', 'height': '200px', 'display': 'block'}), className = 'left'),
-		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width': '180px', 'height': '200px', 'display': 'block'}), className='right'),
-		html.Div(children = "Predicting cross-tissue hormone-gene relations using balanced word embeddings.", className='center'),
+		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioembed_image.decode()), style={'width': '180px', 'height': '200px', 'display': 'block'}), className='right'),
+		html.Div(children = "A database of predicted Hormone-Gene pairs.", className='center'),
 
 		], className = 'banner'),
 
 	dcc.Tabs([
+
+	dcc.Tab(label="Home", children=[
+
+		html.Div([
+			html.H3(children='Predicting cross-tissue hormone-gene relations using balanced word embeddings'),
+			html.P(children='    - Aditya Jadhav, Tarun Kumar*, Mohit Raghavendra*, Tamizhini Loganathan and Manikandan Narayanan.', style={'fontSize': 18}),
+			html.P(children='*These authors contributed equally to this work.'),
+			html.A('Paper', href="https://www.biorxiv.org/content/10.1101/2021.01.28.428707v1"), html.Br(),
+			html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"), html.Br(), html.Br(),		
+  
+			# html.H3(children='About'),
+			html.Div([
+				html.P('Large volumes of biomedical literature present an opportunity to build whole-body human models comprising both within-tissue and across-tissue interactions among genes. Current studies have mostly focused on identifying within-tissue or tissue-agnostic associations, with a heavy emphasis on associations among disease, genes and drugs. Literature mining studies that extract relations pertaining to inter-tissue communication, such as between genes and hormones, are solely missing.'), html.Br(),
+				html.P('We present here a first study to identify from literature the genes involved in inter-tissue signaling via a hormone in the human body. Our models BioEmbedS (Biomedical Word Embeddings + Support Vector Machine (SVM)) and BioEmbedS-TS (Biomedical Word Embeddings + SVM - Target vs. Source) respectively predict if a hormone-gene pair is associated or not, and whether an associated gene is involved in the hormone\'s production or response. Our models are classifiers trained on word embeddings that we had carefully balanced across different strata of the training data such as across production vs. response genes of a hormone (or) well-studied vs. poorly-represented hormones in the literature. Model training and evaluation are enabled by a unified dataset called HGv1 (Hormone-Gene version 1) of ground-truth associations between genes and known endocrine hormones that we had compiled. Our models not only recapitulate known gene mediators of tissue-tissue signaling (e.g., at average 70.4% accuracy for BioEmbedS), but also predicts novel genes'),
+				], style={'text-align': 'justify'}),
+			html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioembed_demo_image.decode()), style={'width': '700px', 'height': '400px', 'display': 'block'}), className = 'center'),
+			html.H4('Navigating this website'), html.Br(),						
+			html.Ul([
+				html.Li('The "Explore HGv1 database" tab to explore our HGv1 database.'),
+				html.Li('The "Browse predictions" tab has details about the predictions obtained from our BioEmbedS model.'),
+				html.Li('The "Downloads" tab allows you to access our database and our predictions.'),
+				html.Li('The "About" tab provides details about the team that worked on this project.')])
+			], className = "main_content")
+		]),
 		
 	dcc.Tab(label="Explore HGv1 dataset", children =[
 		html.H4("HGv1 Dataset", className = "main_content"),
@@ -72,7 +99,7 @@ app.layout = html.Div([
 							 ]),
 
 
-				html.H3(id='hormone'),
+				html.H6(id='hormone'),
 				html.H3("Source Tissues"),
 				html.Div(id='src_tissue'),
 				html.H3("Source Genes"),
@@ -86,70 +113,75 @@ app.layout = html.Div([
 		])
 	]),
 		
-		dcc.Tab(label="Browse predictions", children = [
-			html.Div([
-				html.Div(children=[
-					# html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width':'220px', 'display': 'block','marginLeft': 'auto', 'marginRight': 'auto', 'paddingTop':'10px'})),
-					html.H4(children='BioEmbedS Predictions'),
-					html.Div([dcc.Dropdown(id="my-input",
-										   options=[
-											   {'label': hor, 'value': hor} for hor in hormone_lst
-										   ],
-										   placeholder="Select a hormone",
-										  )  
-							 ]),
-					html.Div([dcc.RadioItems(id="type",
-											 options=[
-												 {'label': 'Show associated genes (predictions discussed in BioEmbedS paper)', 'value': 'gene'},
-												 {'label': 'Show associated lncRNAs (preliminary/exploratory predictions)', 'value': 'lncrna'},
-											 ],
-											 value='gene'
-											) 
-							 ]),
-					
-					html.Br(),
-					html.Div(
-							  
-							  dash_table.DataTable(
-									  id='my-table',
-									  columns=[
-												{'name': name, 'id': name} for name in df_new.columns
-											],
-									  data=[{'Hormone': ' ', 'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}],
-									  sort_action="native",
-									  sort_mode="multi",
-									  export_format = 'csv',
-									  page_size= 10)
-													
-					  ),
-					html.Div(id = 'count'),
-				]),
-			], className = "main_content"),
-		]),
-		
-		dcc.Tab(label="Downloads", children = [
-			html.Div(children = [
-				html.Br(),
-				#html.A('Download all hormone-gene predictions', id='hg-link',href="./bioembeds_nonsmote_pos_preds.csv")
-				html.A(html.Button('Link to access all hormone-gene predictions file', className = 'downloads'), href='https://drive.google.com/file/d/1mwYZgFU5jP7Kocslwt_QjgKfkKgvMQkL/view?usp=sharing'), html.Br(),  html.Br(),
-				html.A(html.Button('Link to access all predictions for protein coding genes', className = 'downloads'), href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'), html.Br(),  html.Br(),
-				html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn", className = 'downloads'), Download(id="pc-download")]), html.Br(),
-				html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn", className = 'downloads'), Download(id="lncrna-download")]), html.Br(),
-				html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn", className = 'downloads'), Download(id="hgv1-gene-download")]), html.Br(),
-				html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn", className = 'downloads'), Download(id="hgv1-tissue-download")]), html.Br(),
-			], className = "main_content")
-		]),
-
-		dcc.Tab(label="About", children = [
+	dcc.Tab(label="Browse predictions", children = [
+		html.Div([
 			html.Div(children=[
-					html.H3(children='Predicting cross-tissue hormone-gene relations using balanced word embeddings'),
-					html.P(children='    - Aditya Jadhav, Tarun Kumar*, Mohit Raghavendra*, Tamizhini Loganathan and Manikandan Narayanan.', style={'fontSize': 18}),
-					html.P(children='*These authors contributed equally to this work.'), html.Br(),
-					html.P(children=[html.Strong('About our model:'), ' Our BioEmbedS model predicts if a hormone-gene pair is associated or not from literature-based (BioWordVec) embeddings of the hormone name and the gene symbol.'], style={'fontSize': 18}), html.Br(), 
-					html.P(children=[html.Strong('About our dataset:'), ' Our HGv1 dataset is a unified database of source and target genes for known hormones that we expressly assembled by integrating data from several data sources (please refer to our paper below for these data sources).'], style={'fontSize': 18}), html.Br(),
-					html.A('Paper', href="https://www.biorxiv.org/content/10.1101/2021.01.28.428707v1"), html.Br(),
-					html.A('Code on Github', href="https://github.com/BIRDSgroup/BioEmbedS"), html.Br(), html.Br(),
-					html.P(children='This work was supported by Wellcome Trust/DBT grant IA/I/17/2/503323 awarded to Manikandan Narayanan.'), html.Br(),
+				# html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width':'220px', 'display': 'block','marginLeft': 'auto', 'marginRight': 'auto', 'paddingTop':'10px'})),
+				html.H4(children='BioEmbedS Predictions'),
+				html.Div([dcc.Dropdown(id="my-input",
+									   options=[
+										   {'label': hor, 'value': hor} for hor in hormone_lst
+									   ],
+									   placeholder="Select a hormone",
+									  )  
+						 ]),
+
+				html.H3(id='selected_hormone', children='Hormone Selected - aldosterone'),
+				html.Div([dcc.RadioItems(id="type",
+										 options=[
+											 {'label': 'Show associated genes (predictions discussed in BioEmbedS paper)', 'value': 'gene'},
+											 {'label': 'Show associated lncRNAs (preliminary/exploratory predictions)', 'value': 'lncrna'},
+										 ],
+										 value='gene'
+										) 
+						 ]),
+				
+				html.Br(),
+				html.Div(
+						  
+						  dash_table.DataTable(
+								  id='my-table',
+								  columns=[
+											{'name': name, 'id': name} for name in df_new.columns[1:]
+										],
+								  data=[{'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}],
+								  sort_action="native",
+								  sort_mode="multi",
+								  export_format = 'csv',
+								  page_size= 10)
+												
+				  ),
+				html.Div(id = 'count'),
+			]),
+		], className = "main_content"),
+	]),
+	
+	dcc.Tab(label="Downloads", children = [
+		html.Div(children = [
+			html.Br(),
+			#html.A('Download all hormone-gene predictions', id='hg-link',href="./bioembeds_nonsmote_pos_preds.csv")
+			html.A(html.Button('Link to access all hormone-gene predictions file', className = 'downloads'), href='https://drive.google.com/file/d/1mwYZgFU5jP7Kocslwt_QjgKfkKgvMQkL/view?usp=sharing'), html.Br(),  html.Br(),
+			html.A(html.Button('Link to access all predictions for protein coding genes', className = 'downloads'), href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'), html.Br(),  html.Br(),
+			html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn", className = 'downloads'), Download(id="pc-download")]), html.Br(),
+			html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn", className = 'downloads'), Download(id="lncrna-download")]), html.Br(),
+			html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn", className = 'downloads'), Download(id="hgv1-gene-download")]), html.Br(),
+			html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn", className = 'downloads'), Download(id="hgv1-tissue-download")]), html.Br(),
+		], className = "main_content")
+	]),
+
+	dcc.Tab(label="About", children = [
+		html.Div(children=[
+				html.Br(), html.Br(), 
+				html.P(children='Study conducted at the BIRDS group, Indian Institute of Technology Madras'),
+				html.P(['Principal Investigator - ', html.A('Manikandan Narayanan', href='https://maninarayanan.com/index.html')]),
+				html.P(['Contact - ', html.A('nmanik@cse.iitm.ac.in', href="mailto:nmanik@cse.iitm.ac.in")]),	
+				html.H4('Team'),
+				html.P('Adithya Jadhav'),	
+				html.P('Tarun Kumar'),	
+				html.P('Mohit Raghavendra'),	
+				html.P('Tamizhini Loganathan'),	
+				html.P('Manikandan Narayanan'),	
+
 			], className = "main_content")
 		])
 	])
@@ -165,13 +197,21 @@ def display_src_tissue(val1):
 
 
 @app.callback(
+	Output(component_id = 'selected_hormone', component_property='children'), 
+	[Input(component_id='my-input', component_property='value')]
+)
+def display_selected_hormone(val1):
+		return "Hormone Selected - " + val1
+
+@app.callback(
 	Output(component_id = 'src_tissue', component_property='children'), 
 	[Input(component_id='hormone-input', component_property='value')]
 )
 def display_src_tissue(val1):
 	if val1 != None:
 		sourcegenes = list(src_tgt_tissue[str(val1)]['source'])
-		targetgenes = list(src_tgt_tissue[str(val1)]['target'])
+		print(sourcegenes)
+		# sourcegenes = sourcegenes.sort()
 
 		if(len(sourcegenes)%tablebreak != 0):
 			while(len(sourcegenes)%tablebreak != 0):
@@ -191,7 +231,7 @@ def display_src_tissue(val1):
 def display_src(val1):
 	if val1 != None:
 		sourcegenes = list(hormone_src_tgt_genes[str(val1)]['source'])
-		targetgenes = list(hormone_src_tgt_genes[str(val1)]['target'])
+		sourcegenes.sort()
 
 		if(len(sourcegenes)%tablebreak != 0):
 			while(len(sourcegenes)%tablebreak != 0):
@@ -210,8 +250,8 @@ def display_src(val1):
 )
 def display_tar_tissue(val1):
 	if val1 != None:
-		sourcegenes = list(src_tgt_tissue[str(val1)]['source'])
 		targetgenes = list(src_tgt_tissue[str(val1)]['target'])
+		targetgenes.sort()
 
 		if(len(targetgenes)%tablebreak != 0):
 			while(len(targetgenes)%tablebreak != 0):
@@ -230,8 +270,8 @@ def display_tar_tissue(val1):
 )
 def display_tar(val1):
 	if val1 != None:
-		sourcegenes = list(hormone_src_tgt_genes[str(val1)]['source'])
 		targetgenes = list(hormone_src_tgt_genes[str(val1)]['target'])
+		targetgenes.sort()
 
 		if(len(targetgenes)%tablebreak != 0):
 			while(len(targetgenes)%tablebreak != 0):
