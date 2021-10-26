@@ -33,7 +33,6 @@ trunc = lambda x: math.trunc(10000 * x) / 10000;
 
 
 df_new = df_gene[df_gene['Hormone'].str.match('aldosterone')]
-print(len(df_new))
 to_load = 50
 tablebreak = 8
 
@@ -56,7 +55,7 @@ app.layout = html.Div([
 
 		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={'width': '180px', 'height': '200px', 'display': 'block'}), className = 'left'),
 		html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioembed_image.decode()), style={'width': '180px', 'height': '200px', 'display': 'block'}), className='right'),
-		html.Div(children = "A database of predicted Hormone-Gene pairs.", className='center'),
+		html.Div(children = "A database of predicted Hormone-Gene associations.", className='center'),
 
 		], className = 'banner'),
 
@@ -86,7 +85,7 @@ app.layout = html.Div([
 			], className = "main_content")
 		]),
 		
-	dcc.Tab(label="Explore HGv1 dataset", children =[
+	dcc.Tab(label="Explore ground-truth dataset (HGv1)", children =[
 		html.H4("HGv1 Dataset", className = "main_content"),
 		html.Div([
 			html.Div([
@@ -113,7 +112,7 @@ app.layout = html.Div([
 		])
 	]),
 		
-	dcc.Tab(label="Browse predictions", children = [
+	dcc.Tab(label="Browse model predictions (BioEmbedS)", children = [
 		html.Div([
 			html.Div(children=[
 				# html.Div(html.Img(src='data:image/png;base64,{}'.format(encoded_bioemned_image.decode()), style={'width':'220px', 'display': 'block','marginLeft': 'auto', 'marginRight': 'auto', 'paddingTop':'10px'})),
@@ -210,7 +209,7 @@ def display_selected_hormone(val1):
 def display_src_tissue(val1):
 	if val1 != None:
 		sourcegenes = list(src_tgt_tissue[str(val1)]['source'])
-		print(sourcegenes)
+		# print(sourcegenes)
 		# sourcegenes = sourcegenes.sort()
 
 		if(len(sourcegenes)%tablebreak != 0):
@@ -314,7 +313,7 @@ def generate_table(val1, val2, rows, columns):
 	Input(component_id='type', component_property='value')]
 )
 def generate_count(val1, val2):
-	print(val1)
+	# print(val1)
 	if val1 != None:
 		if val2 == "gene":
 			df1 = df_gene[df_gene['Hormone'].str.match(val1)]
