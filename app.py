@@ -18,7 +18,11 @@ import base64
 import math
 
 cols_to_use = ['Hormone', 'Gene', 'SVM score', 'SVM probability']
+cols_to_use_extended = ['Hormone', 'Gene', 'BioEmbedS prediction', 'BioEmbedS score', 'BioEmbedS probability', 'BioEmbedS-TS prediction', 'BioEmbedS-TS score',	'BioEmbedS-TS probability']
+
 df_gene = pd.read_csv('results/protein_coding_genes_novel_predictions_threshold.csv', usecols = cols_to_use)
+df_gene = pd.read_csv('results/protein_coding_genes_novel_predictions_threshold_with_tissues.csv', usecols = cols_to_use_extended)
+
 df_lncrna = pd.read_csv('results/lncRNA_novel_predictions_threshold.csv', usecols = cols_to_use)
 with open('./hgv1_hormone_src_tgt_genes.json') as json_file:
 	hormone_src_tgt_genes = json.load(json_file)
@@ -29,10 +33,12 @@ with open('./source_target_tissue.json') as st_json_file:
 hormone_lst = ['aldosterone', 'angiotensin', 'calcitonin', 'cholecystokinin', 'cortisol', 'erythropoietin', 'estrogen', 'glucagon', 'insulin', 'leptin', 'melatonin', 'peptide yy', 'progesterone', 'prolactin', 'prostaglandins', 'relaxin', 'somatostatin', 'testosterone', 'adrenocorticotropin', 'thyrotropin-releasing hormone', 'gonadotropin-releasing hormone', 'vascular endothelial growth factor', 'norepinephrine', 'adiponectin', 'a-type natriuretic peptide', 'adrenaline/epinephrine', 'estradiol/oestradiol', 'somatotrophin/growth hormone', 'parathyroid hormone/parathyrin', 'serotonin/5-hydroxytryptamine', 'vitamin d/calciferol', 'follicle-stimulating hormone/follitropin', 'antidiuretic hormone/vasopressin', 'thymosin']
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-trunc = lambda x: math.trunc(10000 * x) / 10000;
+trunc = lambda x: math.trunc(10000 * float(x)) / 10000;
 
+default_hormone = 'cortisol'
+df_new = df_gene[df_gene['Hormone'].str.match(default_hormone)]
 
-df_new = df_gene[df_gene['Hormone'].str.match('aldosterone')]
+# print(df_new)
 to_load = 50
 tablebreak = 8
 
@@ -122,10 +128,11 @@ app.layout = html.Div([
 										   {'label': hor, 'value': hor} for hor in hormone_lst
 									   ],
 									   placeholder="Select a hormone",
+									   value=default_hormone
 									  )  
 						 ]),
 
-				html.H3(id='selected_hormone', children='Hormone Selected - aldosterone'),
+				html.H3(id='selected_hormone', children='Hormone Selected - ' + default_hormone),
 				html.Div([dcc.RadioItems(id="type",
 										 options=[
 											 {'label': 'Show associated genes (predictions discussed in BioEmbedS paper)', 'value': 'gene'},
@@ -143,11 +150,17 @@ app.layout = html.Div([
 								  columns=[
 											{'name': name, 'id': name} for name in df_new.columns[1:]
 										],
-								  data=[{'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}],
+								  # data=[{'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}],
+								  data = [{'Gene': ' ', 'BioEmbedS prediction': ' ', 'BioEmbedS score': ' ', 'BioEmbedS probability': ' ',\
+								   'BioEmbedS-TS prediction':' ', 'BioEmbedS-TS score':' ',	'BioEmbedS-TS probability': ' '}],
 								  sort_action="native",
 								  sort_mode="multi",
 								  export_format = 'csv',
-								  page_size= 10)
+								  page_size= 10,
+								  style_header={
+										        # 'backgroundColor': 'white',
+										        'fontWeight': 'bold'
+										    })
 												
 				  ),
 				html.Div(id = 'count'),
@@ -285,7 +298,8 @@ def display_tar(val1):
 
 
 @app.callback(
-	Output(component_id='my-table', component_property='data'),
+	[Output(component_id='my-table', component_property='data'),
+	 Output(component_id='my-table', component_property='columns')],
 	[Input(component_id='my-input', component_property='value'),
 	Input(component_id='type', component_property='value')],
 	[State('my-table', 'data'),
@@ -293,19 +307,27 @@ def display_tar(val1):
 )
 def generate_table(val1, val2, rows, columns):
 	if(val1 == None):
-		val1 = "aldosterone"
+		val1 = "cortisol"
 	if val1 != None:
 		if val2 == "gene":
 			df1 = df_gene[df_gene['Hormone'].str.match(val1)]
-			df1['SVM probability'] = df1['SVM probability'].apply(trunc)
-			df1['SVM score'] = df1['SVM score'].apply(trunc)
-		
+
+			print(df1.columns)
+			df1['BioEmbedS score'] = df1['BioEmbedS score'].apply(trunc)
+			df1['BioEmbedS probability'] = df1['BioEmbedS probability'].apply(trunc)
+			try:
+				df1['BioEmbedS-TS score'] = df1['BioEmbedS-TS score'].apply(trunc)
+				df1['BioEmbedS-TS probability'] = df1['BioEmbedS-TS probability'].apply(trunc)
+			except:
+				pass
+
 		elif val2 == "lncrna":
 			df1 = df_lncrna[df_lncrna['Hormone'].str.match(val1)]
 			df1['SVM probability'] = df1['SVM probability'].apply(trunc)
 			df1['SVM score'] = df1['SVM score'].apply(trunc)
-					
-		return df1.to_dict('records')
+		
+		columns = [{'name': name, 'id': name} for name in df1.columns[1:]]
+		return (df1.to_dict('records'), columns)
 
 @app.callback(
 	Output(component_id = 'count', component_property = 'children'),
@@ -320,7 +342,7 @@ def generate_count(val1, val2):
 		elif val2 == "lncrna":
 			df1 = df_lncrna[df_lncrna['Hormone'].str.match(val1)]
 
-		return "Discovered " + str(len(df1)) + " " + str(val2) + "s associated with this hormone, with the SVM probability score higher than 0.70"	
+		return "Discovered " + str(len(df1)) + " " + str(val2) + "s associated with this hormone, with the BioembedS SVM probability score higher than 0.70"	
 
 @app.callback(Output("pc-download", "data"), [Input("pc-btn", "n_clicks")])
 def func(n_clicks):
