@@ -18,10 +18,10 @@ import base64
 import math
 
 cols_to_use = ['Hormone', 'Gene', 'SVM score', 'SVM probability']
-cols_to_use_extended = ['Hormone', 'Gene', 'BioEmbedS prediction', 'BioEmbedS score', 'BioEmbedS probability', 'BioEmbedS-TS prediction', 'BioEmbedS-TS score',	'BioEmbedS-TS probability']
+cols_to_use_extended = ['Hormone', 'Gene', 'BioEmbedS prediction', 'BioEmbedS score', 'BioEmbedS probability', 'BioEmbedS-TS prediction', 'BioEmbedS-TS score',	'BioEmbedS-TS probability', 'Predicted tissues']
 
 df_gene = pd.read_csv('results/protein_coding_genes_novel_predictions_threshold.csv', usecols = cols_to_use)
-df_gene = pd.read_csv('results/protein_coding_genes_novel_predictions_threshold_with_tissues.csv', usecols = cols_to_use_extended)
+df_gene = pd.read_csv('results/protein_coding_genes_novel_predictions_threshold_with_tissues_specificity.csv', usecols = cols_to_use_extended)
 
 df_lncrna = pd.read_csv('results/lncRNA_novel_predictions_threshold.csv', usecols = cols_to_use)
 with open('./hgv1_hormone_src_tgt_genes.json') as json_file:
@@ -152,7 +152,7 @@ app.layout = html.Div([
 										],
 								  # data=[{'Gene': ' ', 'SVM score': ' ', 'SVM probability': ' '}],
 								  data = [{'Gene': ' ', 'BioEmbedS prediction': ' ', 'BioEmbedS score': ' ', 'BioEmbedS probability': ' ',\
-								   'BioEmbedS-TS prediction':' ', 'BioEmbedS-TS score':' ',	'BioEmbedS-TS probability': ' '}],
+								   'BioEmbedS-TS prediction':' ', 'BioEmbedS-TS score':' ',	'BioEmbedS-TS probability': ' ', 'Predicted tissues': ' '}],
 								  sort_action="native",
 								  sort_mode="multi",
 								  export_format = 'csv',
@@ -178,6 +178,7 @@ app.layout = html.Div([
 			html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn", className = 'downloads'), Download(id="lncrna-download")]), html.Br(),
 			html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn", className = 'downloads'), Download(id="hgv1-gene-download")]), html.Br(),
 			html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn", className = 'downloads'), Download(id="hgv1-tissue-download")]), html.Br(),
+			html.Div([html.Button("Download the HGv1 Mouse Dataset", id="hgv1-mouse-btn", className = 'downloads'), Download(id="hgv1-mouse-download")]), html.Br(),
 		], className = "main_content")
 	]),
 
@@ -359,6 +360,10 @@ def func(n_clicks):
 @app.callback(Output("hgv1-tissue-download", "data"), [Input("hgv1-tissue-btn", "n_clicks")])
 def func(n_clicks):
 	return send_file("./source_target_tissue.json", filename = 'HGv1_Tissue.json')
+
+@app.callback(Output("hgv1-mouse-download", "data"), [Input("hgv1-mouse-btn", "n_clicks")])
+def func(n_clicks):
+	return send_file("results/hgv1_mouse_hormone_src_tgt_genes.json", filename = 'hgv1_mouse_hormone_src_tgt_genes.json')
 
 if __name__ == '__main__':
 	app.run_server()
