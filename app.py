@@ -163,7 +163,8 @@ app.layout = html.Div([
 										    })
 												
 				  ),
-				html.Div(id = 'count'),
+				html.Div(id = 'count'), html.Br(),
+				html.P(['Tissue specificity scores obtained from the ', html.A('GTEx portal.', href='https://gtexportal.org/home/')]),
 			]),
 		], className = "main_content"),
 	]),
