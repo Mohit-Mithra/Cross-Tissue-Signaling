@@ -164,9 +164,14 @@ app.layout = html.Div([
 												
 				  ),
 				html.Div(id = 'count'), html.Br(),
-				html.P(['Predicted Tissue specificity scores (in parenthesis) obtained from the ', html.A('GTEx portal.', href='https://gtexportal.org/home/')]),
+				html.P(['Predicted tissue-specific gene expression levels are ', 
+							html.A('GTEx v8 ', href='https://gtexportal.org/home/'), 
+							'median TPM (Transcripts Per Million) values, downloaded from ', 
+							html.A(' here.', href='https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz')]),
+
+				# html.P(['Predicted Tissue specificity scores (in parenthesis) obtained from the ', html.A('GTEx portal.', href='https://gtexportal.org/home/')]),
 			]),
-		], className = "main_content"),
+		], className = "main_content_datatable"),
 	]),
 	
 	dcc.Tab(label="Downloads", children = [
@@ -314,7 +319,7 @@ def generate_table(val1, val2, rows, columns):
 		if val2 == "gene":
 			df1 = df_gene[df_gene['Hormone'].str.match(val1)]
 
-			print(df1.columns)
+			# print(df1.columns)
 			df1['BioEmbedS score'] = df1['BioEmbedS score'].apply(trunc)
 			df1['BioEmbedS probability'] = df1['BioEmbedS probability'].apply(trunc)
 			try:
