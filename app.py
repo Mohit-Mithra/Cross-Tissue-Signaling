@@ -178,13 +178,13 @@ app.layout = html.Div([
 		html.Div(children = [
 			html.Br(),
 			#html.A('Download all hormone-gene predictions', id='hg-link',href="./bioembeds_nonsmote_pos_preds.csv")
-			html.A(html.Button('Link to access all hormone-gene predictions file', className = 'downloads'), href='https://drive.google.com/file/d/1mwYZgFU5jP7Kocslwt_QjgKfkKgvMQkL/view?usp=sharing'), html.Br(),  html.Br(),
-			html.A(html.Button('Link to access all predictions for protein coding genes', className = 'downloads'), href='https://drive.google.com/file/d/1DGqWXcGLWc9bntlWtl0NB3aJ7WLGb3qi/view?usp=sharing'), html.Br(),  html.Br(),
-			html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn", className = 'downloads'), Download(id="pc-download")]), html.Br(),
-			html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn", className = 'downloads'), Download(id="lncrna-download")]), html.Br(),
-			html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn", className = 'downloads'), Download(id="hgv1-gene-download")]), html.Br(),
-			html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn", className = 'downloads'), Download(id="hgv1-tissue-download")]), html.Br(),
-			html.Div([html.Button("Download the HGv1 Mouse Dataset", id="hgv1-mouse-btn", className = 'downloads'), Download(id="hgv1-mouse-download")]), html.Br(),
+			html.A(html.Button('Link to access all hormone-gene predictions file', className = 'downloads', title = "all_novel_predictions.csv"), href='https://drive.google.com/file/d/1IK8zYAeOhtaNcDaaEdN83dnT0JhRpufB/view?usp=sharing'), html.Br(),  html.Br(),
+			html.A(html.Button('Link to access all predictions for protein coding genes', className = 'downloads', title = "all_novel_predictions_genesprotcodg.csv"), href='https://drive.google.com/file/d/1ir2ePr1T7kCU9k4NMYLZhVdb0a_MYvWQ/view?usp=sharing'), html.Br(),  html.Br(),
+			html.Div([html.Button("Download top predictions for protein coding genes", id="pc-btn", className = 'downloads', title = "protein coding.csv"), Download(id="pc-download")]), html.Br(),
+			html.Div([html.Button("Download predictions for lncrna genes", id="lncrna-btn", className = 'downloads', title = "lncRNA.csv"), Download(id="lncrna-download")]), html.Br(),
+			html.Div([html.Button("Download the HGv1 Gene Dataset", id="hgv1-gene-btn", className = 'downloads', title = "HGv1_Gene.json" ), Download(id="hgv1-gene-download")]), html.Br(),
+			html.Div([html.Button("Download the HGv1 Tissue Dataset", id="hgv1-tissue-btn", className = 'downloads', title = "HGv1_Tissue.json" ), Download(id="hgv1-tissue-download")]), html.Br(),
+			html.Div([html.Button("Download the HGv1 Mouse Dataset", id="hgv1-mouse-btn", className = 'downloads', title = "hgv1_mouse_hormone_src_tgt_genes.json"), Download(id="hgv1-mouse-download")]), html.Br(),
 		], className = "main_content")
 	]),
 
